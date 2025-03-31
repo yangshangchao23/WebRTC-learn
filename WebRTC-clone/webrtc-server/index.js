@@ -18,7 +18,7 @@ io.on('connection', (sock) => {
   // 监听发起通话请求
   sock.on('callRemote', (roomId) => {
     // 触发一个收到请求事件-向这个房间中的所有人广播这个事件
-    io.to(roomId).emit('receiveCall')
+    io.to(roomId).emit('callRemote')
   })
   // 监听接受通话请求
   sock.on('acceptCall', (roomId) => {
@@ -33,14 +33,14 @@ io.on('connection', (sock) => {
 
   // 监听接收者的发送answer事件
   sock.on('sendAnswer', ({ roomId, answer }) => {
-    // A要接收answer 广播receiveAnswer给发起者
-    io.to(roomId).emit('receiveAnswer', answer)
+    // A要接收answer 广播sendAnswer给发起者
+    io.to(roomId).emit('sendAnswer', answer)
   })
 
   // 监听A发送candidate事件
   sock.on('sendCandidate', ({ roomId, candidate }) => {
     // 广播sendCandidate给接收者
-    io.to(roomId).emit('receiveCandidate', candidate)
+    io.to(roomId).emit('sendCandidate', candidate)
   })
 
   // 监听拒绝/挂断事件

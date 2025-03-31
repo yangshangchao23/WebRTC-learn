@@ -16,7 +16,7 @@
 //   5-2.信令服务器on B的接受，注意向房间的所有人广播事件
 //   5-3.A监听B接受了请求，创建PeerConnection对象(P2P连接)，改变UI状态。最后发送一个offer给信令服务器
 //   5-4.B监听A发送offer动作，创建自己的PeerConnection对象，本地流渲染、创建DSP信息（设置远端描述的offer、生成answer、创建本地描述的answer等）。最后发送一个answer给信令服务器
-//   5-5.A监听B发送answer动作（信令服务器新建一个receiveAnswer动作），设置远端描述的answer
+//   5-5.A监听B发送answer动作，设置远端描述的answer
 
 // 至此，媒体协商动作完成SDP信息交换  目的-双边编解码数据？ 调用了API createOffer + setLocalDescription + createAnswer + setRemoteDescription
 
@@ -81,7 +81,7 @@ onMounted(async () => {
     sock.emit('joinRoom', roomId)
 
     // B监听收到通话请求事件
-    sock.on('receiveCall', (roomId) => {
+    sock.on('callRemote', (roomId) => {
       // 如果是B（被呼叫者）才做以下动作
       if (!caller.value) {
         calling.value = true
@@ -170,15 +170,14 @@ onMounted(async () => {
     })
 
     // A监听收到answer事件
-    sock.on('receiveAnswer', (answer: any) => {
+    sock.on('sendAnswer', (answer: any) => {
       if (caller.value) {
         // 设置远端描述的answer
-        // console.log(answer, 'receiveAnswer')
         peer.value.setRemoteDescription(answer)
       }
     })
     // B监听发送candidate事件
-    sock.on('receiveCandidate', async (candidate: any) => {
+    sock.on('sendCandidate', async (candidate: any) => {
       // console.log('B收到candidate')
       await peer.value.addIceCandidate(candidate)
     })
