@@ -35,6 +35,8 @@
 //    时机:A收到B触发的接收时，即'acceptCall'。B收到A发起时，即'sendOffer'。代码位置技巧：记住new RTCPeerConnection()的时机就行
 //  也是：B接受了，A才把B的流渲染到自己的页面上。这时候B页面也应该出现A的流。可以借助A 监听B接收 时，发出Offer的动作里面 做B渲染A的流到自己页面。
 
+// 11.注意 获取candidate信息和10的动作要提前 至 offer和answer之前，否则页面报错
+
 // 总结每个交互动作都需要：emit + on。通过信令服务器来沟通触发动作
 import { onMounted, ref } from 'vue'
 import { io, type Socket } from 'socket.io-client'
