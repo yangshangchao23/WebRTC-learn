@@ -1,7 +1,7 @@
 {
-  "name": "webrtc-server",
+  "name": "peer-server",
   "version": "1.0.0",
-  "description": "rtc-server",
+  "description": "peerserver连接",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -11,6 +11,6 @@
   "license": "ISC",
   "dependencies": {
     "nodemon": "^3.1.9",
-    "socket.io": "^4.8.1"
+    "peer": "^1.0.2"
   }
 }
